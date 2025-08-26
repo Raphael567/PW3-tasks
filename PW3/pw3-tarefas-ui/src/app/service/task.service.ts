@@ -13,5 +13,9 @@ export class TaskService {
     return this.http.get<Task[]>(this.apiUrl);
   }
 
+  deleteTask(id: number | undefined): Observable<boolean> {
+      return this.http.delete<boolean>(`${this.apiUrl}/${id}`);
+  }
+
   constructor() { }
 }
