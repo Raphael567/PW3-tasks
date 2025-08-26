@@ -65,7 +65,7 @@ public class ScheduledTask {
                                        .plusDays(random.nextInt(10)));
         
         // Define status como PENDING
-        task.setStatus(StatusEnum.PENDING);
+        task.setStatus(StatusEnum.COMPLETED);
         
         // Define um responsável aleatório
         task.setResponsible(RESPONSIBLES[random.nextInt(RESPONSIBLES.length)]);
