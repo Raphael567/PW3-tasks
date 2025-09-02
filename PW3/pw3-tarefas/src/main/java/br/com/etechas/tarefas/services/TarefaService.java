@@ -36,14 +36,26 @@ public class TarefaService {
     public boolean excluirPorId(Long idTarefa) {
         Optional<Tarefa> tarefa  = tarefaRepository.findById(idTarefa);
 
-        if(tarefa.isPresent()) {
-            if(tarefa.get().getStatus().equals(StatusEnum.PENDING)) {
-                tarefaRepository.deleteById(idTarefa);
-                return true;
-            }
+        if(tarefa.isPresent() && tarefa.get().isPending()) {
+            tarefaRepository.deleteById(idTarefa);
+            return true;
         }  else {
             throw new RuntimeException("Tarefa em progresso ou concluída");
         }
-        return false;
+        //return false;
     }
+
+//    public boolean excluirPorId(Long idTarefa) {
+//        Optional<Tarefa> tarefa = tarefaRepository.findById(idTarefa);
+//
+//        if (tarefa.isPresent()) {
+//            if (tarefa.get().getStatus().equals(StatusEnum.PENDING)) {
+//                tarefaRepository.deleteById(idTarefa);
+//                return true;
+//            } else {
+//                throw new RuntimeException("Tarefa em progresso ou concluída");
+//            }
+//        }
+//        return false;
+//    }
 }

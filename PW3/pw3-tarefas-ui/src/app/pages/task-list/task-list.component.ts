@@ -18,9 +18,7 @@ export class TaskListComponent implements OnInit {
   private TaskService = inject(TaskService);
 
   ngOnInit(): void {
-    this.TaskService.findAll().subscribe((_tasks) => {
-      this.tasks = _tasks;
-    })
+    this.loadTask();
   }
 
   // ngOnInit(): void {
@@ -32,20 +30,36 @@ export class TaskListComponent implements OnInit {
     this.router.navigate(['/tasks/new']);
   }
 
-  deleteTask(id: number | undefined) {
-    this.TaskService.deleteTask(id).subscribe({
-      next: () => {
-        console.log("Item deletado com sucesso");
-      },
-      error: (err) => {
-        console.log(err);
-      }
+  loadTask() {
+    this.TaskService.findAll().subscribe((_tasks) => {
+      this.tasks = _tasks;
     })
+  }
 
+    deleteTask(id: number | undefined) {
     if (id && confirm('Tem certeza que deseja excluir esta tarefa?')) {
+      this.TaskService.deleteTask(id).subscribe(() =>
+      this.TaskService.findAll().subscribe((tasks) => {
+        this.tasks = tasks;
+      }));
       console.log("Exclusão realizada");
     }
   }
+
+  // deleteTask(id: number | undefined) {
+  //   if (id && confirm('Tem certeza que deseja excluir esta tarefa?')) {
+  //     console.log("Exclusão realizada");
+  //   }
+
+  //   this.TaskService.deleteTask(id).subscribe({
+  //     next: () => {
+  //       console.log("Item deletado com sucesso");
+  //     },
+  //     error: (err) => {
+  //       console.log(err);
+  //     }
+  //   })
+  // }
 
   editTask(id: number | undefined) {
     if (id) this.router.navigate(['/tasks', id]);
