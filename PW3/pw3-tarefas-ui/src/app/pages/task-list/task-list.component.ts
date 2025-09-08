@@ -33,10 +33,12 @@ export class TaskListComponent implements OnInit {
   loadTask() {
     this.TaskService.findAll().subscribe((_tasks) => {
       this.tasks = _tasks;
+      console.log(this.tasks);
+      console.log(_tasks);
     })
   }
 
-    deleteTask(id: number | undefined) {
+  deleteTask(id: number | undefined) {
     if (id && confirm('Tem certeza que deseja excluir esta tarefa?')) {
       this.TaskService.deleteTask(id).subscribe(() =>
       this.TaskService.findAll().subscribe((tasks) => {
