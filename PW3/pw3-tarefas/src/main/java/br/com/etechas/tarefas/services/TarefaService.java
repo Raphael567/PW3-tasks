@@ -33,6 +33,12 @@ public class TarefaService {
         }
     }
 
+    public Tarefa criarTarefa(TarefasResponseDTO dto) {
+        Tarefa tarefa = tarefaMapper.toResponse(model);
+
+        return tarefaRepository.save(tarefa);
+    }
+
     public boolean excluirPorId(Long idTarefa) {
         Optional<Tarefa> tarefa  = tarefaRepository.findById(idTarefa);
 

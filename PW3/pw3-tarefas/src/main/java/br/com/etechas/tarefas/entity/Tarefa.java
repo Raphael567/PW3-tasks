@@ -1,3 +1,4 @@
+
 package br.com.etechas.tarefas.entity;
 
 import br.com.etechas.tarefas.enums.StatusEnum;
