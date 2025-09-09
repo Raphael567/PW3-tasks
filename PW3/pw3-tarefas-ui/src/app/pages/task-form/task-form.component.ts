@@ -19,10 +19,10 @@ export class TaskFormComponent {
 
   taskForm = this.fb.group({
     id: [null as number | null],
-    title: ['', Validators.required],
-    description: [''],
-    responsible: ['', Validators.required],
-    dueDate: ['', Validators.required],
+    titulo: ['', Validators.required],
+    descricao: [''],
+    responsavel: ['', Validators.required],
+    dataLimite: ['', Validators.required],
     status: ['PENDING', Validators.required],
   });
 

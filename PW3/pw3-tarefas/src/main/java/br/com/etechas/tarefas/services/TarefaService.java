@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,15 +35,15 @@ public class TarefaService {
         }
     }
 
-<<<<<<< HEAD
-    public Tarefa criarTarefa(TarefasResponseDTO dto) {
-        Tarefa tarefa = tarefaMapper.toResponse(model);
-
-=======
     public void criarTarefa(TarefasRequestDTO dto) {
         try {
             Tarefa tarefa = tarefaMapper.toEntity(dto);
             tarefa.setStatus(StatusEnum.PENDING);
+
+            if(tarefa.getDataLimite().isBefore(LocalDate.now())) {
+                throw new RuntimeException(":A data de entrega não pode ser anterior a atual");
+            }
+
             tarefaRepository.save(tarefa);
         } catch (Exception ex) {
             throw new RuntimeException("Erro ao criar tarefa" + ex.getMessage());
@@ -56,7 +57,6 @@ public class TarefaService {
 
         Tarefa tarefa = tarefaMapper.toEntity(dto);
         tarefa.setId(id);
->>>>>>> cb6d9fc5344e9d3114d8d51dc014e7c1647486bd
         return tarefaRepository.save(tarefa);
     }
 

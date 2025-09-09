@@ -19,20 +19,20 @@ public class Tarefa {
     private Long id;
 
     @Column(name = "TX_TITULO")
-    private String title;
+    private String titulo;
 
     @Column(name = "TX_DESCRICAO")
-    private String description;
+    private String descricao;
 
     @Column(name = "DT_DATA_LIMITE")
-    private LocalDate dueDate;
+    private LocalDate dataLimite;
 
     @Column(name = "TX_STATUS")
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
 
     @Column(name = "TX_RESPONSAVEL")
-    private String responsible;
+    private String responsavel;
 
     public boolean isPending() {
         return status.equals(StatusEnum.PENDING);

@@ -56,25 +56,25 @@ public class ScheduledTask {
         
         // Seleciona aleatoriamente um título e descrição
         int index = random.nextInt(TASK_TITLES.length);
-        task.setTitle(TASK_TITLES[index]);
-        task.setDescription(TASK_DESCRIPTIONS[index]);
+        task.setTitulo(TASK_TITLES[index]);
+        task.setDescricao(TASK_DESCRIPTIONS[index]);
 
 
         // Define data de vencimento para a partir de hoje
-        task.setDueDate(LocalDate.now().plusDays(1)
+        task.setDataLimite(LocalDate.now().plusDays(1)
                                        .plusDays(random.nextInt(10)));
 
         // Define status como PENDING
         task.setStatus(StatusEnum.values()[random.nextInt(3)]);
 
         // Define um responsável aleatório
-        task.setResponsible(RESPONSIBLES[random.nextInt(RESPONSIBLES.length)]);
+        task.setResponsavel(RESPONSIBLES[random.nextInt(RESPONSIBLES.length)]);
         
         // Salva a tarefa no banco
         taskRepository.save(task);
         
-        System.out.println("Tarefa automática criada: " + task.getTitle() + 
-                          " - Responsável: " + task.getResponsible() + 
+        System.out.println("Tarefa automática criada: " + task.getTitulo() +
+                          " - Responsável: " + task.getResponsavel() +
                           " - Data: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
     }
 } 

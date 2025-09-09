@@ -1,18 +1,18 @@
 <div class="form-container">
   <h2>{{ id ? 'Editar Tarefa' : 'Nova Tarefa' }}</h2>
 
-  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="taskForm">
     <label for="title">Título</label>
-    <input id="title" formControlName="title" type="text" required />
+    <input id="title" formControlName="titulo" type="text" required />
 
     <label for="description">Descrição</label>
-    <textarea id="description" formControlName="description"></textarea>
+    <textarea id="description" formControlName="descricao"></textarea>
 
     <label for="responsible">Responsável</label>
-    <input id="responsible" formControlName="responsible" type="text" required />
+    <input id="responsible" formControlName="responsavel" type="text" required />
 
     <label for="dueDate">Data Limite</label>
-    <input id="dueDate" formControlName="dueDate" type="date" required />
+    <input id="dueDate" formControlName="dataLimite" type="date" required />
 
     <label for="status">Status</label>
     <select id="status" formControlName="status">
