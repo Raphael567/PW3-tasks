@@ -3,6 +3,7 @@
 
 package br.com.etechas.tarefas.controllers;
 
+import br.com.etechas.tarefas.dto.TarefasRequestDTO;
 import br.com.etechas.tarefas.dto.TarefasResponseDTO;
 import br.com.etechas.tarefas.entity.Tarefa;
 import br.com.etechas.tarefas.enums.StatusEnum;
@@ -26,6 +27,18 @@ public class TarefaController {
     @GetMapping
     public ResponseEntity<List<TarefasResponseDTO>> listarTarefas() {
         return new ResponseEntity<>(tarefaService.listarTarefas(), HttpStatus.OK);
+    }
+
+    @PostMapping("/criar")
+    public ResponseEntity<Void> criarTarefa(@RequestBody TarefasRequestDTO dto) {
+        tarefaService.criarTarefa(dto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Tarefa> editarTarefa(@PathVariable Long id, @RequestBody TarefasRequestDTO dto) {
+        Tarefa tarefaEditada = tarefaService.editarTarefa(id, dto);
+        return new ResponseEntity<>(tarefaEditada, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

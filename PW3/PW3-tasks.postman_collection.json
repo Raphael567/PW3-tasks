@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "b94920bb-f2b8-4f7e-a98b-578be273d82b",
+		"name": "PW3-tasks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42614561"
+	},
+	"item": [
+		{
+			"name": "criarTarefa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"titulo\": \"Estudar Angular\",\r\n  \"responsavel\": \"Raphael Canuto\",\r\n  \"dataLimite\": \"2025-09-15\",\r\n  \"status\": \"IN_PROGRESS\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/tarefas/criar",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"tarefas",
+						"criar"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

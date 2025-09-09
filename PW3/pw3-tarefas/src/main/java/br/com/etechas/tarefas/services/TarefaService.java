@@ -4,6 +4,7 @@
 package br.com.etechas.tarefas.services;
 
 
+import br.com.etechas.tarefas.dto.TarefasRequestDTO;
 import br.com.etechas.tarefas.dto.TarefasResponseDTO;
 import br.com.etechas.tarefas.entity.Tarefa;
 import br.com.etechas.tarefas.enums.StatusEnum;
@@ -33,9 +34,29 @@ public class TarefaService {
         }
     }
 
+<<<<<<< HEAD
     public Tarefa criarTarefa(TarefasResponseDTO dto) {
         Tarefa tarefa = tarefaMapper.toResponse(model);
 
+=======
+    public void criarTarefa(TarefasRequestDTO dto) {
+        try {
+            Tarefa tarefa = tarefaMapper.toEntity(dto);
+            tarefa.setStatus(StatusEnum.PENDING);
+            tarefaRepository.save(tarefa);
+        } catch (Exception ex) {
+            throw new RuntimeException("Erro ao criar tarefa" + ex.getMessage());
+        }
+    }
+
+    public Tarefa editarTarefa(Long id, TarefasRequestDTO dto) {
+        if (!tarefaRepository.existsById(id)) {
+            throw new RuntimeException("Tarefa não encontrada com id: " + id);
+        }
+
+        Tarefa tarefa = tarefaMapper.toEntity(dto);
+        tarefa.setId(id);
+>>>>>>> cb6d9fc5344e9d3114d8d51dc014e7c1647486bd
         return tarefaRepository.save(tarefa);
     }
 
