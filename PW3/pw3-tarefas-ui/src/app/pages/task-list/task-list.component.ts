@@ -44,7 +44,7 @@ export class TaskListComponent implements OnInit {
       this.TaskService.findAll().subscribe((tasks) => {
         this.tasks = tasks;
       }));
-      console.log("Exclusão realizada");
+      alert("Exclusão realizada");
     }
   }
 

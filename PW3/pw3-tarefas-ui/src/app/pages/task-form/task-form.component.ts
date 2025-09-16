@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../../model/task';
 import { TaskService } from '../../service/task.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-form',
@@ -14,6 +15,7 @@ export class TaskFormComponent {
 
   private fb = inject(FormBuilder);
   private TaskService = inject(TaskService);
+  private router = inject(Router);
 
   id: number | null = null;
 
@@ -41,24 +43,25 @@ export class TaskFormComponent {
       // Edição
       this.TaskService.editTask(this.id, task).subscribe({
         next: (updatedTask) => {
-          console.log('Tarefa atualizada com sucesso', updatedTask);
+          alert('Tarefa atualizada com sucesso ' + updatedTask);
           this.taskForm.reset();
         },
         error: (err) => {
-          console.error('Erro ao atualizar a tarefa', err);
+          alert('Erro ao atualizar a tarefa ' + err);
         }
       });
     } else {
       // Criação
       this.TaskService.createTask(task).subscribe({
         next: (createdTask) => {
-          console.log('Tarefa criada com sucesso', createdTask);
+          alert('Tarefa criada com sucesso ' + createdTask);
           this.taskForm.reset();
         },
         error: (err) => {
-          console.error('Erro ao criar a tarefa', err);
+          alert('Erro ao criar a tarefa ' + err);
         }
       });
     }
+    this.router.navigate(['/tasks']);
   }
 }
