@@ -4,27 +4,56 @@ import br.com.etechas.tarefas.dto.UsuarioCadastroDTO;
 import br.com.etechas.tarefas.dto.UsuarioResponseDTO;
 import br.com.etechas.tarefas.entity.Usuario;
 import br.com.etechas.tarefas.mapper.UsuarioMapper;
-import br.com.etechas.tarefas.repositories.UsuarioRepository;
+import br.com.etechas.tarefas.repositorys.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UsuarioService {
-
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
     private UsuarioMapper usuarioMapper;
 
-    public UsuarioResponseDTO registrar(UsuarioCadastroDTO cadastro) {
-        usuarioRepository.findByUsername(cadastro.username()).ifPresent(u -> {
-            throw new RuntimeException("Username já existe");
-        });
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    public UsuarioResponseDTO registrar(UsuarioCadastroDTO cadastro){
+
+        Usuario usuarioName =  usuarioRepository.findByUsername(cadastro.username());
+
+        if(usuarioName != null){
+            throw new RuntimeException("Usuário com mesmo username já existe!");
+        }
+
+        var entidade = usuarioMapper.toEntity(cadastro);
+
+        var senhaCifrada = passwordEncoder.encode(cadastro.password());
+
+        entidade.setPassword(senhaCifrada);
+
+        usuarioRepository.save(entidade);
+
+        UsuarioResponseDTO usuarioResposeDTO = usuarioMapper.toUsuarioResponseDTO(entidade);
+
+        /*
         Usuario usuario = usuarioMapper.toEntity(cadastro);
-        Usuario salvo = usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
+        UsuarioResponseDTO usuarioResposeDTO = usuarioMapper.toUsuarioResponseDTO(usuario);
+        */
 
-        return usuarioMapper.toUsuarioResponseDTO(salvo);
+        return usuarioResposeDTO;
+    }
+
+    public List<UsuarioResponseDTO> getAll(){
+        List<Usuario> usuarios = usuarioRepository.findAll();
+
+        List<UsuarioResponseDTO> usuariosResponseDTO = usuarioMapper.toUsuarioResponseDTOList(usuarios);
+
+        return usuariosResponseDTO;
     }
 }

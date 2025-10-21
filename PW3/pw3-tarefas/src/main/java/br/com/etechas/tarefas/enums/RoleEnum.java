@@ -4,7 +4,7 @@ public enum RoleEnum {
     ADMIN,
     USER;
 
-    public String getAuthority() {
+    public String getAuthority(){
         return "ROLE_" + name();
     }
 }

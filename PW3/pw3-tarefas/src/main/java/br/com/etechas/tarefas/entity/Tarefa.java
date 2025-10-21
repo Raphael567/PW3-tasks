@@ -1,9 +1,7 @@
-
 package br.com.etechas.tarefas.entity;
 
 import br.com.etechas.tarefas.enums.StatusEnum;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +9,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "TBL_TAREFA")
-@Data
+@Getter
+@Setter
 public class Tarefa {
     @Id
     @Column(name = "ID_TASK")
@@ -34,7 +33,7 @@ public class Tarefa {
     @Column(name = "TX_RESPONSAVEL")
     private String responsavel;
 
-    public boolean isPending() {
+    public boolean isPending(){
         return status.equals(StatusEnum.PENDING);
     }
 }

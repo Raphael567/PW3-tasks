@@ -1,55 +1,55 @@
-//Raphael Pereira Canuto
-//Hellen Novi Salvador
+//Mariana e Paola
 
 package br.com.etechas.tarefas.controllers;
 
-import br.com.etechas.tarefas.dto.TarefasRequestDTO;
-import br.com.etechas.tarefas.dto.TarefasResponseDTO;
-import br.com.etechas.tarefas.entity.Tarefa;
-import br.com.etechas.tarefas.enums.StatusEnum;
+import br.com.etechas.tarefas.dto.TarefaPostDTO;
+import br.com.etechas.tarefas.dto.TarefaResponseDTO;
 import br.com.etechas.tarefas.services.TarefaService;
-import org.apache.coyote.Response;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/tarefas")
+@CrossOrigin(origins = "*")
 public class TarefaController {
 
     @Autowired
     private TarefaService tarefaService;
 
     @GetMapping
-    public ResponseEntity<List<TarefasResponseDTO>> listarTarefas() {
+    public ResponseEntity<List<TarefaResponseDTO>> listarTarefas(){
         return new ResponseEntity<>(tarefaService.listarTarefas(), HttpStatus.OK);
     }
 
-    @PostMapping("/criar")
-    public ResponseEntity<Void> criarTarefa(@RequestBody TarefasRequestDTO dto) {
-        tarefaService.criarTarefa(dto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
+    /*
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirTarefaPorId(@PathVariable Long id){
+        try {
+            tarefaService.excluirPorId(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Tarefa> editarTarefa(@PathVariable Long id, @RequestBody TarefasRequestDTO dto) {
-        Tarefa tarefaEditada = tarefaService.editarTarefa(id, dto);
-        return new ResponseEntity<>(tarefaEditada, HttpStatus.OK);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> excluirPorId(@PathVariable Long id) {
-        var verifica = tarefaService.excluirPorId(id);
-
-        if(verifica) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deletar(@PathVariable Long id){
+        if(tarefaService.deleteById(id)){
+            return ResponseEntity.noContent().build();
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.notFound().build();
     }
 
+    @PostMapping
+    public ResponseEntity<TarefaPostDTO> criarTarefa(@RequestBody TarefaPostDTO tarefaPostDTO){
+        return new ResponseEntity<>(tarefaService.criarTarefa(tarefaPostDTO), HttpStatus.OK);
+    }
 
 }

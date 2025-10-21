@@ -5,8 +5,11 @@ import br.com.etechas.tarefas.dto.UsuarioResponseDTO;
 import br.com.etechas.tarefas.entity.Usuario;
 import org.mapstruct.Mapper;
 
-@Mapper (componentModel = "spring")
+import java.util.List;
+
+@Mapper(componentModel = "spring")
 public interface UsuarioMapper {
     Usuario toEntity(UsuarioCadastroDTO cadastro);
     UsuarioResponseDTO toUsuarioResponseDTO(Usuario usuario);
+    List<UsuarioResponseDTO> toUsuarioResponseDTOList(List<Usuario> usuarios);
 }
