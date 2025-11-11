@@ -23,14 +23,14 @@ public class LoginController {
     private JWTHolder jwtHolder;
 
     @PostMapping()
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO login) {
-        var authenticated = authenticationManager.authenticate(
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest) {
+        var autenticado = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        login.usuario(),
-                        login.senha())
+                        loginRequest.username(),
+                        loginRequest.password())
         );
 
-        final String token = jwtHolder.generateToken((UserDetails) authenticated.getPrincipal());
+        String token = jwtHolder.generateToken((UserDetails) autenticado.getPrincipal());
 
         return new ResponseEntity<>(new LoginResponseDTO(token), HttpStatus.OK);
     }

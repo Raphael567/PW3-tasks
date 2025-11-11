@@ -6,13 +6,17 @@ import br.com.etechas.tarefas.entity.Usuario;
 import br.com.etechas.tarefas.mapper.UsuarioMapper;
 import br.com.etechas.tarefas.repositorys.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
+    private String username;
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -22,31 +26,28 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UsuarioResponseDTO registrar(UsuarioCadastroDTO cadastro){
+    public UsuarioResponseDTO registrar(UsuarioCadastroDTO cadastro) {
 
-        Usuario usuarioName =  usuarioRepository.findByUsername(cadastro.username());
+        Optional<Usuario> usuarioName =  usuarioRepository.findByUsername(cadastro.username());
 
-        if(usuarioName != null){
-            throw new RuntimeException("Usuário com mesmo username já existe!");
+        if(usuarioName.isPresent()){
+            throw new RuntimeException("Usuário com mesmo usuario já existe!");
         }
 
-        var entidade = usuarioMapper.toEntity(cadastro);
+        var usuario = usuarioMapper.toEntity(cadastro);
 
         var senhaCifrada = passwordEncoder.encode(cadastro.password());
 
-        entidade.setPassword(senhaCifrada);
+        usuario.setUsername(cadastro.username());
+        usuario.setPassword(senhaCifrada);
 
-        usuarioRepository.save(entidade);
-
-        UsuarioResponseDTO usuarioResposeDTO = usuarioMapper.toUsuarioResponseDTO(entidade);
-
-        /*
-        Usuario usuario = usuarioMapper.toEntity(cadastro);
         usuarioRepository.save(usuario);
-        UsuarioResponseDTO usuarioResposeDTO = usuarioMapper.toUsuarioResponseDTO(usuario);
-        */
 
-        return usuarioResposeDTO;
+        UsuarioResponseDTO usuarioResponseDTO = usuarioMapper.toUsuarioResponseDTO(usuario);
+
+        System.out.println(cadastro);
+        System.out.println(usuario);
+        return usuarioResponseDTO;
     }
 
     public List<UsuarioResponseDTO> getAll(){
@@ -56,4 +57,11 @@ public class UsuarioService {
 
         return usuariosResponseDTO;
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        return usuarioRepository.findByUsername(username)
+                .orElseThrow(()-> new UsernameNotFoundException("Usuario não encontrado com username: "+ username));
+    }
+
 }

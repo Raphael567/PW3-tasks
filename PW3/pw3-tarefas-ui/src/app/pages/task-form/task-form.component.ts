@@ -1,8 +1,9 @@
 import { Component, Inject, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task } from '../../model/task';
-import { TaskService } from '../../service/task.service';
+
 import { Router } from '@angular/router';
+import { TaskService } from '../../../service/task.service';
 
 @Component({
   selector: 'app-task-form',

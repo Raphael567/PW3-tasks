@@ -2,7 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Task } from '../../model/task';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { TaskService } from '../../service/task.service';
+import { TaskService } from '../../../service/task.service';
+
 
 @Component({
   selector: 'app-task-list',
